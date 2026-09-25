@@ -1,89 +1,40 @@
 /* ==========================================================================
-   Projector Color Palettes & Typography Themes
+   Projector Color Palettes & Skeuomorphic Book Themes
    ========================================================================== */
 
-/* Font Family Import (Merriweather for crisp projector readability) */
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Cinzel:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap');
 
-/* Default Theme: Pergamino (Wall / Daylight Reading) */
+/* Default Theme: Pergamino Vintage (Exact match to living room & bedroom photos) */
 .flipbook-container,
 .flipbook-container[data-theme="parchment"] {
-    --book-bg: #EADCB9;
-    --book-text: #231A12;
-    --book-header-footer: #7A6953;
-    --book-spine-gradient: linear-gradient(to right, rgba(0,0,0,0.15), rgba(0,0,0,0.02) 20%, rgba(0,0,0,0.02) 80%, rgba(0,0,0,0.15));
-    --book-shadow: rgba(0, 0, 0, 0.4);
+    --book-bg: #F4EAD2; /* Warm glowing aged book paper */
+    --book-text: #261B11; /* Deep charcoal sepia ink */
+    --book-header-footer: #826F5A;
+    --book-ornament: #C2A878;
+    --book-accent: #872E1B; /* Drop cap crimson accent */
+    --book-shadow: rgba(0, 0, 0, 0.6);
 }
 
 /* Night Mode (Ceiling / Bedroom Reading - Zero Blue Light) */
 .flipbook-container[data-theme="night"] {
-    --book-bg: #0D0D0D;
-    --book-text: #C29B38;
-    --book-header-footer: #66501C;
-    --book-spine-gradient: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.1) 20%, rgba(0,0,0,0.1) 80%, rgba(0,0,0,0.8));
-    --book-shadow: rgba(0, 0, 0, 0.9);
+    --book-bg: #110E0A; /* Warm dark chocolate / near-black */
+    --book-text: #D9A84E; /* Gentle glowing amber */
+    --book-header-footer: #7A5C28;
+    --book-ornament: #4A3816;
+    --book-accent: #E58C38;
+    --book-shadow: rgba(0, 0, 0, 0.95);
 }
 
-/* Typography styles inside the book spread */
+/* Vintage Antique White (Bright Wall Projection) */
+.flipbook-container[data-theme="antique"] {
+    --book-bg: #FAF5E8;
+    --book-text: #1C1610;
+    --book-header-footer: #7C6F61;
+    --book-ornament: #D1BE9B;
+    --book-accent: #7A2211;
+    --book-shadow: rgba(0, 0, 0, 0.5);
+}
+
 .page-side {
-    background-color: var(--book-bg);
-    color: var(--book-text);
-    font-family: 'Merriweather', 'Georgia', serif;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.page-header {
-    font-family: 'Cinzel', 'Georgia', serif;
-    font-size: 15px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--book-header-footer);
-    text-align: center;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    padding-bottom: 8px;
-    height: 40px;
-    margin-bottom: 25px;
-}
-
-.page-footer {
-    font-family: 'Merriweather', serif;
-    font-size: 14px;
-    color: var(--book-header-footer);
-    text-align: center;
-    height: 40px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.flipbook-container[data-theme="night"] .page-header,
-.flipbook-container[data-theme="night"] .page-footer {
-    border-color: rgba(194, 155, 56, 0.15);
-}
-
-/* Reader Typography Flow */
-.page-content {
-    line-height: 1.75;
-    text-align: justify;
-    hyphens: auto;
-    word-break: break-word;
-    height: 900px;
-    overflow: hidden;
-}
-
-.page-content p {
-    margin-bottom: 1.2em;
-    text-indent: 1.8em;
-}
-
-.page-content p:first-of-type {
-    text-indent: 0;
-}
-
-.page-content h1, .page-content h2, .page-content h3 {
-    font-family: 'Cinzel', 'Merriweather', serif;
-    font-weight: 700;
-    text-align: center;
-    margin-top: 1em;
-    margin-bottom: 0.8em;
-    line-height: 1.3;
+    font-family: 'Newsreader', 'Merriweather', 'Georgia', serif;
 }

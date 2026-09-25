@@ -22,12 +22,14 @@ class FlipbookEngine {
                 <!-- Underlay / Base Spread (Current or Target) -->
                 <div class="spread-container current-spread" id="currentSpread">
                     <div class="page-side page-left" id="leftPage">
+                        <div class="page-inner-border"></div>
                         <div class="page-header" id="leftHeader"></div>
                         <div class="page-content" id="leftContent"></div>
                         <div class="page-footer" id="leftFooter"></div>
                     </div>
                     <div class="spine-shadow"></div>
                     <div class="page-side page-right" id="rightPage">
+                        <div class="page-inner-border"></div>
                         <div class="page-header" id="rightHeader"></div>
                         <div class="page-content" id="rightContent"></div>
                         <div class="page-footer" id="rightFooter"></div>
