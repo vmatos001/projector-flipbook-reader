@@ -15,7 +15,6 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="Flipbook Reader"
         android:supportsRtl="true"
         android:theme="@style/Theme.Leanback"
@@ -24,7 +23,6 @@
         
         <activity
             android:name=".MainActivity"
-            android:banner="@mipmap/ic_banner"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:screenOrientation="landscape"
             android:exported="true">
