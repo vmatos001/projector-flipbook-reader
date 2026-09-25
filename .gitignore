@@ -9,6 +9,8 @@ build/
 out/
 bin/
 *.apk
+!FlipbookReader.apk
+!src/FlipbookReader.apk
 *.aab
 
 # Logs and environment
