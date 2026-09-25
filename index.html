@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Projector Flipbook Reader</title>
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/themes.css">
+    <link rel="stylesheet" href="styles/flipbook.css">
+</head>
+<body>
+    <div id="app-root">
+        <!-- TV Top Bar (Visible in Catalog) -->
+        <header class="tv-header">
+            <div class="tv-logo">
+                <span class="tv-logo-icon">📽️</span>
+                <span>Projector Flipbook Reader</span>
+            </div>
+            <div class="tv-status">
+                <span id="server-badge">🟢 Calibre-Web OPDS</span>
+                <button class="tv-btn" id="btn-settings" tabindex="1">⚙️ Configuración</button>
+            </div>
+        </header>
+
+        <!-- Catalog View: 5-Column Grid -->
+        <main class="view active" id="catalog-view">
+            <div class="catalog-grid" id="catalog-grid">
+                <!-- Book Cards rendered dynamically -->
+            </div>
+        </main>
+
+        <!-- Reader View: 16:9 Dual-Page Spread with 3D Page Curl -->
+        <section class="view" id="reader-view">
+            <div class="flipbook-container" id="flipbook-container" data-theme="parchment">
+                <!-- Rendered dynamically by FlipbookEngine -->
+            </div>
+
+            <!-- Floating Quick Menu (Activated with DPAD_CENTER / Select) -->
+            <div class="floating-menu" id="floating-menu">
+                <div class="menu-item focused" data-menu="0">
+                    <span class="menu-item-label">Paleta / Modo</span>
+                    <span class="menu-item-value">
+                        <span class="menu-nav-arrow">◀</span>
+                        <span id="menu-theme-val">📜 Pergamino</span>
+                        <span class="menu-nav-arrow">▶</span>
+                    </span>
+                </div>
+                <div class="menu-item" data-menu="1">
+                    <span class="menu-item-label">Tamaño Fuente</span>
+                    <span class="menu-item-value">
+                        <span class="menu-nav-arrow">◀</span>
+                        <span id="menu-fontsize-val">24 px</span>
+                        <span class="menu-nav-arrow">▶</span>
+                    </span>
+                </div>
+                <div class="menu-item" data-menu="2">
+                    <span class="menu-item-label">Brillo Proyector</span>
+                    <span class="menu-item-value">
+                        <span class="menu-nav-arrow">◀</span>
+                        <span id="menu-brightness-val">100%</span>
+                        <span class="menu-nav-arrow">▶</span>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Modal (Calibre-Web Server & Basic Auth) -->
+        <div class="modal-backdrop" id="settings-modal" style="display: none;">
+            <div class="modal-content">
+                <h2 class="modal-title">Configuración de Servidor Calibre-Web</h2>
+                <div class="form-group">
+                    <label for="input-server-url">URL del Servidor Calibre-Web (IP y Puerto)</label>
+                    <input type="text" id="input-server-url" placeholder="http://192.168.1.50:8083" />
+                </div>
+                <div class="form-group">
+                    <label for="input-username">Usuario (Basic Auth)</label>
+                    <input type="text" id="input-username" placeholder="admin" />
+                </div>
+                <div class="form-group">
+                    <label for="input-password">Contraseña</label>
+                    <input type="password" id="input-password" placeholder="••••••••" />
+                </div>
+                <div id="settings-status" style="margin-bottom: 15px; font-weight: bold; min-height: 24px;"></div>
+                <div class="modal-actions">
+                    <button class="tv-btn" id="btn-test-connection">Probar Conexión</button>
+                    <button class="tv-btn" id="btn-close-settings">Cancelar</button>
+                    <button class="tv-btn focused" id="btn-save-settings">Guardar y Conectar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fullscreen Loading / Download Overlay -->
+        <div class="loading-overlay" id="loading-overlay" style="display: none;">
+            <div class="spinner"></div>
+            <div class="loading-text" id="loading-text">Cargando biblioteca...</div>
+            <div class="loading-progress" id="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="js/config.js"></script>
+    <script src="js/opds-client.js"></script>
+    <script src="js/epub-parser.js"></script>
+    <script src="js/flipbook-engine.js"></script>
+    <script src="js/remote-controller.js"></script>
+    <script src="js/ui-manager.js"></script>
+</body>
+</html>

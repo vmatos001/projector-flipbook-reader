@@ -1,0 +1,310 @@
+/* ==========================================================================
+   Projector Flipbook Reader - Main TV Interface Styles
+   Target: 1920x1080 Full HD (16:9) for Fire TV Stick 4K & Projector
+   ========================================================================== */
+
+:root {
+    --tv-bg: #121212;
+    --tv-surface: #1E1E1E;
+    --tv-text-primary: #FFFFFF;
+    --tv-text-secondary: #AAAAAA;
+    --tv-accent: #FFB300; /* Glowing focus border */
+    --tv-focus-glow: 0 0 25px rgba(255, 179, 0, 0.8), 0 0 10px rgba(255, 179, 0, 0.5);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    background-color: var(--tv-bg);
+    color: var(--tv-text-primary);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 16:9 Aspect Ratio Master Container */
+#app-root {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--tv-bg);
+    transform-origin: center center;
+}
+
+/* Header & Status Bar */
+.tv-header {
+    height: 80px;
+    padding: 0 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.tv-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--tv-text-primary);
+    letter-spacing: 1px;
+}
+
+.tv-logo-icon {
+    font-size: 32px;
+}
+
+.tv-status {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    font-size: 18px;
+    color: var(--tv-text-secondary);
+}
+
+.tv-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid transparent;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tv-btn.focused, .tv-btn:focus {
+    border-color: var(--tv-accent);
+    box-shadow: var(--tv-focus-glow);
+    background: rgba(255, 179, 0, 0.2);
+}
+
+/* Views */
+.view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    display: none;
+}
+
+.view.active {
+    display: block;
+}
+
+/* Catalog View (5-Column Grid) */
+#catalog-view {
+    padding-top: 100px;
+    padding-left: 60px;
+    padding-right: 60px;
+    height: 1080px;
+    overflow-y: auto;
+}
+
+#catalog-view::-webkit-scrollbar {
+    width: 0; /* Hide scrollbar for TV aesthetic */
+}
+
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* PRD: Cuadrícula de 5 columnas */
+    gap: 40px;
+    padding: 20px 10px 80px 10px;
+}
+
+/* Book Card */
+.catalog-card {
+    background: var(--tv-surface);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 440px;
+    transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+    border: 3px solid transparent;
+    cursor: pointer;
+}
+
+.catalog-card-cover {
+    width: 100%;
+    height: 340px;
+    background: #2A2A2A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.catalog-card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cover-placeholder {
+    font-size: 48px;
+    color: #555;
+}
+
+.catalog-card-info {
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    background: #181818;
+}
+
+.catalog-card-title {
+    font-size: 17px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #FFFFFF;
+    margin-bottom: 4px;
+}
+
+.catalog-card-author {
+    font-size: 14px;
+    color: #999;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* D-Pad Focus Engine (PRD: Escala 1.1x con borde iluminado #FFB300) */
+.catalog-card.focused {
+    transform: scale(1.1);
+    border-color: var(--tv-accent);
+    box-shadow: var(--tv-focus-glow);
+    z-index: 5;
+}
+
+.catalog-card.focused .catalog-card-title {
+    color: var(--tv-accent);
+}
+
+/* Modals & Dialogs */
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    background: #1E1E1E;
+    border: 2px solid #333;
+    border-radius: 16px;
+    width: 650px;
+    padding: 40px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+}
+
+.modal-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: var(--tv-accent);
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #CCC;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 18px;
+    background: #2B2B2B;
+    border: 2px solid #444;
+    border-radius: 8px;
+    color: #FFF;
+    font-size: 18px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: var(--tv-accent);
+    box-shadow: var(--tv-focus-glow);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.spinner {
+    width: 70px;
+    height: 70px;
+    border: 6px solid rgba(255, 179, 0, 0.2);
+    border-top-color: var(--tv-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 25px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    font-size: 24px;
+    color: #FFF;
+    margin-bottom: 10px;
+}
+
+.loading-progress {
+    font-size: 18px;
+    color: var(--tv-accent);
+}
