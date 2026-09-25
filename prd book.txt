@@ -1,0 +1,113 @@
+# PRD: Projector Flipbook Reader (v1.0 - Antigravity Edition)
+
+---
+
+## 1. Visión General y Objetivos
+
+Aplicación cliente para Android TV / Fire OS (Fire TV Stick 4K) diseñada para consumir libros desde un servidor Calibre-Web local mediante OPDS, visualizándolos en proyección de pared o techo con una interfaz de pliego horizontal a dos páginas (16:9) y animación de paso de página (*page-curl* 3D) controlada por D-Pad.
+
+* **Objetivo principal:** Lectura cómoda, estética y sin lag a distancia mediante proyector.
+* **Target de Hardware:** Fire TV Stick 4K (Fire OS / Android base).
+* **Alcance:** Uso personal / MVP local.
+
+---
+
+## 2. Historias de Usuario Principales
+
+* **HU-01:** Como usuario, quiero ver la cuadrícula de portadas de mi biblioteca Calibre-Web para seleccionar qué libro leer con el control remoto.
+* **HU-02:** Como usuario, quiero que el libro se abra en formato horizontal a dos páginas aprovechando la relación 16:9 del proyector.
+* **HU-03:** Como usuario, quiero pasar las páginas adelante/atrás usando la cruceta (D-Pad) con animación flipbook fluida a 60 fps.
+* **HU-04:** Como usuario, quiero activar un modo nocturno (fondo oscuro/ámbar) para proyectar en el techo sin deslumbrar la habitación.
+
+---
+
+## 3. Arquitectura y Stack Técnico
+
+```text
+[Servidor Local: Calibre-Web]
+       │ (OPDS Feed + HTTP Basic Auth)
+       ▼
+[Fire TV Stick 4K (App Antigravity)]
+       ├── Módulo 1: Catálogo OPDS (Grid de Portadas + Focus D-Pad)
+       ├── Módulo 2: Downloader & Parser EPUB (Caché local temporal)
+       └── Módulo 3: Motor de Visualización (Doble página + Shader Page-Curl)
+
+```
+
+* **Framework:** Antigravity (Flutter / Android Kotlin Nativo).
+* **Consumo de Datos:** Feed OPDS XML (`/opds`) con autenticación HTTP Basic.
+* **Manejo de Imágenes:** Downsampling en memoria (máx. 350 px de ancho por portada) para evitar errores OOM en Fire OS.
+* **Formato de Archivo:** Solo `.epub`.
+
+---
+
+## 4. Requerimientos Funcionales
+
+### RF-01: Configuración Inicial de Conexión
+
+* Almacenar en preferencias locales (`SharedPreferences` / `Hive`):
+* `Server_URL`: IP y puerto (ej. `http://192.168.1.50:8083`).
+* `Username` / `Password`: Credenciales de Calibre-Web para cabecera Basic Auth.
+
+
+
+### RF-02: Vista de Biblioteca (Home Grid)
+
+* Consulta periódica al endpoint `/opds` o `/opds/books`.
+* Renderizado en cuadrícula de 5 columnas.
+* **Focus Engine (D-Pad):**
+* La portada activa debe escalar a `1.1x` con borde perimetral iluminado (`#FFB300`).
+* Desplazamiento nativo con las teclas `UP`, `DOWN`, `LEFT`, `RIGHT`.
+* Al presionar `SELECT` (`KEYCODE_DPAD_CENTER`), descarga el EPUB e inicia la lectura.
+
+
+
+### RF-03: Paginación y Renderizado (Flipbook Engine)
+
+* **Maquetación fija:** División de pantalla 16:9 en dos columnas virtuales (960×1080 px cada una).
+* **Pipeline de Renderizado:**
+1. Descomprimir EPUB y parsear capítulos XHTML en segundo plano.
+2. Segmentar el texto en bloques estáticos según tipografía fija.
+3. Pre-renderizar en textura off-screen: pliego anterior, actual y siguiente.
+
+
+* **Animación:** Transición de paso de página mediante deformación de malla/shader 3D (*page curl*) con duración máxima de 300 ms.
+
+### RF-04: Control Remoto en Modo Lectura
+
+* `DPAD_RIGHT`: Pasa a las siguientes dos páginas.
+* `DPAD_LEFT`: Regresa a las dos páginas anteriores.
+* `DPAD_CENTER`: Abre menú flotante (Brillo, Modo Noche/Pergamino, Tamaño de texto).
+* `BACK`: Cierra el libro y vuelve al catálogo guardando el índice de página actual.
+
+---
+
+## 5. Requerimientos No Funcionales
+
+* **Rendimiento:** Tasa de refresco constante de 60 fps durante la animación de volteo en Fire TV Stick 4K.
+* **Límite de Memoria:** Uso de RAM menor a 250 MB. Las texturas de páginas no visibles deben ser recicladas inmediatamente.
+* **Sin Dependencias de Google:** Cero uso de Google Play Services (incompatible con Fire OS sin hacks).
+
+---
+
+## 6. Paletas de Color para Proyección
+
+* **Modo Pergamino (Día / Pared):**
+* Fondo: `#EADCB9`
+* Tipografía: `#231A12` (Serif de alta legibilidad, ej. *Georgia* / *Merriweather*)
+
+
+* **Modo Noche (Techo / Dormitorio):**
+* Fondo: `#0D0D0D` (Negro casi puro, apaga la emisión de luz del proyector)
+* Tipografía: `#C29B38` (Ámbar suave, cero luz azul)
+
+
+
+---
+
+## 7. Plan de Entregables (Milestones)
+
+1. **Hito 1 (Conectividad & Grid):** Conectar con Calibre-Web, parsear el feed OPDS y navegar el grid de portadas con el control remoto.
+2. **Hito 2 (Descarga & Parser):** Descargar el EPUB seleccionado y fragmentar el texto en bloques estáticos de doble página en resolución 1080p.
+3. **Hito 3 (Flipbook & Shaders):** Integrar la animación de paso de página 3D activada por el D-Pad.
+4. **Hito 4 (Compilación y APK):** Generar APK firmado (`armeabi-v7a` / `arm64-v8a`) e instalar vía Downloader en el Fire TV Stick 4K.
