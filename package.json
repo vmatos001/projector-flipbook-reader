@@ -1,0 +1,22 @@
+{
+  "name": "projector-flipbook-reader",
+  "version": "1.0.0",
+  "description": "Projector Flipbook Reader for Android TV / Fire TV Stick 4K with Calibre-Web OPDS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/test-opds-parser.js"
+  },
+  "keywords": [
+    "fire-tv",
+    "android-tv",
+    "calibre-web",
+    "opds",
+    "epub",
+    "flipbook",
+    "page-curl",
+    "projector"
+  ],
+  "author": "Laura Hart & Antigravity",
+  "license": "MIT"
+}
