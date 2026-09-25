@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Projector Color Palettes & Skeuomorphic Book Themes
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap');
+
+/* Default Theme: Pergamino Vintage (Exact match to living room & bedroom photos) */
+.flipbook-container,
+.flipbook-container[data-theme="parchment"] {
+    --book-bg: #F4EAD2; /* Warm glowing aged book paper */
+    --book-text: #261B11; /* Deep charcoal sepia ink */
+    --book-header-footer: #826F5A;
+    --book-ornament: #C2A878;
+    --book-accent: #872E1B; /* Drop cap crimson accent */
+    --book-shadow: rgba(0, 0, 0, 0.6);
+}
+
+/* Night Mode (Ceiling / Bedroom Reading - Zero Blue Light) */
+.flipbook-container[data-theme="night"] {
+    --book-bg: #110E0A; /* Warm dark chocolate / near-black */
+    --book-text: #D9A84E; /* Gentle glowing amber */
+    --book-header-footer: #7A5C28;
+    --book-ornament: #4A3816;
+    --book-accent: #E58C38;
+    --book-shadow: rgba(0, 0, 0, 0.95);
+}
+
+/* Vintage Antique White (Bright Wall Projection) */
+.flipbook-container[data-theme="antique"] {
+    --book-bg: #FAF5E8;
+    --book-text: #1C1610;
+    --book-header-footer: #7C6F61;
+    --book-ornament: #D1BE9B;
+    --book-accent: #7A2211;
+    --book-shadow: rgba(0, 0, 0, 0.5);
+}
+
+.page-side {
+    font-family: 'Newsreader', 'Merriweather', 'Georgia', serif;
+}

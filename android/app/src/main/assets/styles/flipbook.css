@@ -1,0 +1,316 @@
+/* ==========================================================================
+   Projector Physical Open-Book Aesthetic (LittleLuma 3D Floating Book Style)
+   Optimized for wall & ceiling projection: Pure #000 background for zero projector bleed
+   ========================================================================== */
+
+/* Fullscreen Immersion */
+#reader-view {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    background-color: #000000 !important; /* Pure black: Projector emits zero light outside the book */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.flipbook-container {
+    width: 1760px;
+    height: 980px;
+    position: relative;
+    perspective: 3000px;
+    perspective-origin: 50% 50%;
+    margin: auto;
+}
+
+/* Master Open-Book 3D Skeuomorphic Frame */
+.spread-container {
+    width: 1760px;
+    height: 980px;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 12px;
+    box-shadow: 
+        0 25px 80px rgba(0, 0, 0, 0.95),
+        0 0 120px rgba(234, 220, 185, 0.08); /* Soft ambient projection halo */
+    overflow: visible;
+}
+
+/* Left and Right Physical Pages */
+.page-side {
+    width: 880px;
+    height: 980px;
+    padding: 55px 75px 45px 75px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    position: relative;
+    background-color: var(--book-bg);
+    color: var(--book-text);
+    /* Subtle 3D page curl edge highlight and curvature */
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Authentic physical page curvature */
+.page-left {
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-right: none;
+    background: 
+        linear-gradient(to right, 
+            rgba(0,0,0,0.12) 0%, 
+            rgba(255,255,255,0.08) 8%, 
+            rgba(0,0,0,0) 25%, 
+            rgba(0,0,0,0.03) 85%, 
+            rgba(0,0,0,0.35) 100%),
+        var(--book-bg);
+    box-shadow: 
+        inset 0 1px 3px rgba(255,255,255,0.2),
+        inset 0 -1px 3px rgba(0,0,0,0.2),
+        inset 15px 0 30px rgba(0,0,0,0.15),
+        -15px 15px 40px rgba(0,0,0,0.7);
+}
+
+.page-right {
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-left: none;
+    background: 
+        linear-gradient(to left, 
+            rgba(0,0,0,0.12) 0%, 
+            rgba(255,255,255,0.08) 8%, 
+            rgba(0,0,0,0) 25%, 
+            rgba(0,0,0,0.03) 85%, 
+            rgba(0,0,0,0.35) 100%),
+        var(--book-bg);
+    box-shadow: 
+        inset 0 1px 3px rgba(255,255,255,0.2),
+        inset 0 -1px 3px rgba(0,0,0,0.2),
+        inset -15px 0 30px rgba(0,0,0,0.15),
+        15px 15px 40px rgba(0,0,0,0.7);
+}
+
+/* Physical Spine Crease with Realistic Deep 3D Shadow */
+.spine-shadow {
+    position: absolute;
+    top: -5px;
+    left: 870px;
+    width: 20px;
+    height: 990px;
+    background: linear-gradient(to right, 
+        rgba(0,0,0,0.4) 0%, 
+        rgba(0,0,0,0.85) 45%, 
+        rgba(255,255,255,0.1) 50%, 
+        rgba(0,0,0,0.85) 55%, 
+        rgba(0,0,0,0.4) 100%);
+    z-index: 10;
+    pointer-events: none;
+    box-shadow: 0 0 15px rgba(0,0,0,0.6);
+}
+
+/* Vintage Ornamental Inner Border */
+.page-inner-border {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+    border: 1px solid var(--book-ornament);
+    border-radius: 6px;
+    pointer-events: none;
+    opacity: 0.65;
+}
+
+.page-inner-border::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    border: 1px dashed var(--book-ornament);
+    opacity: 0.4;
+}
+
+/* Header & Footer Styling */
+.page-header {
+    font-family: 'Cinzel', 'Georgia', serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--book-header-footer);
+    text-align: center;
+    padding-bottom: 12px;
+    height: 35px;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.page-footer {
+    font-family: 'Merriweather', serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--book-header-footer);
+    text-align: center;
+    height: 35px;
+    padding-top: 10px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Content Area */
+.page-content {
+    line-height: 1.85;
+    text-align: justify;
+    font-size: 23px;
+    height: 800px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+}
+
+.page-content h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 24px;
+    letter-spacing: 2px;
+}
+
+.page-content p {
+    margin-bottom: 1.3em;
+    text-indent: 2em;
+}
+
+.page-content p:first-of-type {
+    text-indent: 0;
+}
+
+/* Drop Cap on First Paragraph */
+.page-content p:first-of-type::first-letter {
+    font-family: 'Cinzel', 'Georgia', serif;
+    font-size: 3.6em;
+    float: left;
+    line-height: 0.8;
+    margin-right: 12px;
+    margin-top: 4px;
+    color: var(--book-accent);
+}
+
+/* ==========================================================================
+   3D Realistic Page-Curl Engine (LittleLuma Animation Simulation)
+   ========================================================================== */
+
+.curl-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1760px;
+    height: 980px;
+    z-index: 50;
+    pointer-events: none;
+    perspective: 3200px;
+}
+
+.curl-sheet {
+    position: absolute;
+    top: 0;
+    width: 880px;
+    height: 980px;
+    transform-style: preserve-3d;
+    box-sizing: border-box;
+    padding: 55px 75px 45px 75px;
+    border-radius: 12px;
+}
+
+.curl-sheet.turning-next {
+    left: 880px;
+    transform-origin: left center;
+    transform: rotateY(0deg);
+}
+
+.curl-sheet.turning-next.animating {
+    transition: transform 380ms cubic-bezier(0.25, 1, 0.4, 1), box-shadow 380ms ease;
+    transform: rotateY(-180deg);
+    box-shadow: -60px 20px 100px rgba(0, 0, 0, 0.85);
+}
+
+.curl-sheet.turning-prev {
+    left: 0px;
+    transform-origin: right center;
+    transform: rotateY(0deg);
+}
+
+.curl-sheet.turning-prev.animating {
+    transition: transform 380ms cubic-bezier(0.25, 1, 0.4, 1), box-shadow 380ms ease;
+    transform: rotateY(180deg);
+    box-shadow: 60px 20px 100px rgba(0, 0, 0, 0.85);
+}
+
+.curl-front {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    padding: 55px 75px 45px 75px;
+    box-sizing: border-box;
+    background: var(--book-bg);
+    color: var(--book-text);
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    box-shadow: inset -20px 0 50px rgba(0,0,0,0.2);
+}
+
+.curl-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+    background: var(--book-bg);
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    opacity: 0.96;
+    background-image: 
+        linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 30%, rgba(255,255,255,0.15) 85%, rgba(0,0,0,0.3) 100%),
+        var(--book-bg);
+    box-shadow: inset 20px 0 50px rgba(0,0,0,0.25);
+}
+
+/* ==========================================================================
+   Floating TV Quick Menu
+   ========================================================================== */
+.floating-menu {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%) translateY(160px);
+    background: rgba(15, 15, 15, 0.95);
+    border: 2px solid #555;
+    border-radius: 24px;
+    padding: 18px 45px;
+    display: flex;
+    gap: 45px;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(16px);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.floating-menu.open {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
