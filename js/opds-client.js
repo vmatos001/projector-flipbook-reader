@@ -72,11 +72,16 @@ class OPDSClient {
         const serverUrl = AppConfig.getServerUrl();
         const url = this.resolveUrl(feedPath, serverUrl);
 
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2500);
+
         try {
             const response = await fetch(url, {
                 method: 'GET',
-                headers: this.getHeaders()
+                headers: this.getHeaders(),
+                signal: controller.signal
             });
+            clearTimeout(timeoutId);
 
             if (!response.ok) {
                 // Fallback to /opds if /opds/books returns 404
@@ -89,6 +94,7 @@ class OPDSClient {
             const xmlText = await response.text();
             return this.parseOpdsFeed(xmlText, serverUrl);
         } catch (error) {
+            clearTimeout(timeoutId);
             console.error('Error fetching OPDS feed:', error);
             throw error;
         }
