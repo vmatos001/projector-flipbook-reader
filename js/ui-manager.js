@@ -95,13 +95,20 @@ class UIManager {
         this.showLoading('Conectando con Calibre-Web...', 'Consultando feed OPDS');
         try {
             const feed = await this.opdsClient.fetchCatalog();
-            this.books = feed.books;
-            this.renderCatalogGrid();
-            this.hideLoading();
-            this.remoteController.setGridFocus(0);
+            if (feed && feed.books && feed.books.length > 0) {
+                this.books = feed.books;
+                const badge = document.getElementById('server-badge');
+                if (badge) badge.textContent = '🟢 Conectado: Calibre-Web';
+                this.renderCatalogGrid();
+                this.hideLoading();
+                this.remoteController.setGridFocus(0);
+                return;
+            }
+            throw new Error('No se encontraron libros en el feed');
         } catch (error) {
-            console.warn('Fallo al conectar con OPDS remoto, cargando libros de muestra locales:', error);
-            // Fallback to mock catalog for local testing
+            console.warn('Fallo al conectar con OPDS remoto, cargando biblioteca de muestra:', error);
+            const badge = document.getElementById('server-badge');
+            if (badge) badge.textContent = '🟡 Modo Demo (Libros de Muestra)';
             this.loadMockCatalog();
         }
     }
