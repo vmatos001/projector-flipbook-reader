@@ -198,13 +198,13 @@ class UIManager {
                 buffer = await this.opdsClient.downloadEpub(book.epubUrl, (percent) => {
                     this.showLoading('Descargando libro...', `${percent}%`);
                 });
+                this.showLoading('Procesando pliegos 16:9...', 'Estructurando capítulos');
+                await this.epubEngine.load(buffer);
             } else {
                 // Generate instant sample EPUB structure in memory for mock testing
-                buffer = await this.createSampleEpubBuffer(book);
+                await this.createSampleEpubBuffer(book);
             }
 
-            this.showLoading('Procesando pliegos 16:9...', 'Estructurando capítulos');
-            await this.epubEngine.load(buffer);
             this.epubEngine.paginate(AppConfig.getFontSize(), AppConfig.getTheme());
 
             const savedProgress = AppConfig.getReadingProgress(book.id);
