@@ -22,9 +22,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
@@ -33,10 +30,12 @@ jobs:
           mkdir -p android/app/src/main/assets
           cp -r src/* android/app/src/main/assets/
 
-      - name: Build APK with Gradle
+      - name: Build Debug APK
         run: |
           cd android
           gradle assembleDebug --stacktrace
+        env:
+          ANDROID_HOME: /usr/local/lib/android/sdk
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
@@ -53,10 +52,7 @@ jobs:
           body: |
             ## 📽️ Projector Flipbook Reader (Fire TV Stick 4K / Android TV)
             
-            Descarga directa del archivo APK para instalar en Fire TV Stick vía la app Downloader.
-            
-            - **Archivo:** `app-debug.apk` (o renombrado `FlipbookReader.apk`)
-            - **Compatibilidad:** Fire OS / Android TV (armeabi-v7a / arm64-v8a)
+            Descarga directa del archivo APK nativo para instalar en Fire TV Stick vía la app Downloader.
           files: |
             android/app/build/outputs/apk/debug/app-debug.apk
         env:
