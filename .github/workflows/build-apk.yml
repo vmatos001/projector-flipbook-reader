@@ -22,8 +22,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Gradle
+      - name: Setup Gradle 8.6
         uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.6'
 
       - name: Copy Web Core Assets into Android Project
         run: |
@@ -37,11 +39,15 @@ jobs:
         env:
           ANDROID_HOME: /usr/local/lib/android/sdk
 
+      - name: Rename APK for Downloader
+        run: |
+          mv android/app/build/outputs/apk/debug/app-debug.apk android/app/build/outputs/apk/debug/FlipbookReader.apk
+
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: FlipbookReader-FireTV-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: android/app/build/outputs/apk/debug/FlipbookReader.apk
 
       - name: Create or Update GitHub Release with Direct APK Download
         uses: softprops/action-gh-release@v2
@@ -54,6 +60,6 @@ jobs:
             
             Descarga directa del archivo APK nativo para instalar en Fire TV Stick vía la app Downloader.
           files: |
-            android/app/build/outputs/apk/debug/app-debug.apk
+            android/app/build/outputs/apk/debug/FlipbookReader.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
